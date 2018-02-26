@@ -14,6 +14,7 @@ var gulp = require('gulp'),
     rimraf = require('rimraf'),
     csscomb = require('gulp-csscomb'),
     browserSync = require("browser-sync"),
+    notify = require('gulp-notify'),
     reload = browserSync.reload;
 
 
@@ -61,9 +62,11 @@ var config = {
 gulp.task('pug:build', function() {
     gulp.src(path.src.pug)
         .pipe(rigger())
+        .on('error', handleError)
         .pipe(pug({
             pretty: true
         }))
+        .on('error', handleError)
         .pipe(gulp.dest(path.dist.html))
         .pipe(reload({ stream: true }));
 })
@@ -72,8 +75,10 @@ gulp.task('pug:build', function() {
 gulp.task('js:build', function() {
     gulp.src(path.src.js)
         .pipe(rigger())
+        .on('error', handleError)
         //.pipe(sourcemaps.init())
         .pipe(uglify())
+        .on('error', handleError)
         //.pipe(sourcemaps.write())
         .pipe(gulp.dest(path.dist.js))
         .pipe(reload({ stream: true }));
@@ -84,8 +89,10 @@ gulp.task('js:build', function() {
 gulp.task('css:build', function() {
     gulp.src(path.src.css)
         .pipe(rigger())
+        .on('error', handleError)
         //.pipe(sourcemaps.init())
         .pipe(sass())
+        .on('error', handleError)
         .pipe(prefixer({
             browsers: ['last 15 versions'],
             cascade: false,
@@ -96,6 +103,13 @@ gulp.task('css:build', function() {
         .pipe(gulp.dest(path.dist.css))
         .pipe(reload({ stream: true }));
 });
+
+
+
+function handleError(err) {
+    console.log(err.toString());
+    this.emit('end');
+}
 
 
 
