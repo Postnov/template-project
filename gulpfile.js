@@ -22,7 +22,7 @@ var gulp = require('gulp'),
 var path = {
     dist: {
         html: 'dist/',
-        js: 'dist/jss/',
+        js: 'dist/js/',
         css: 'dist/',
         img: 'dist/images/',
         fonts: 'dist/fonts/'
@@ -72,9 +72,9 @@ gulp.task('pug:build', function() {
 gulp.task('js:build', function() {
     gulp.src(path.src.js)
         .pipe(rigger())
-        .pipe(sourcemaps.init())
+        //.pipe(sourcemaps.init())
         .pipe(uglify())
-        .pipe(sourcemaps.write())
+        //.pipe(sourcemaps.write())
         .pipe(gulp.dest(path.dist.js))
         .pipe(reload({ stream: true }));
 })
@@ -84,16 +84,15 @@ gulp.task('js:build', function() {
 gulp.task('css:build', function() {
     gulp.src(path.src.css)
         .pipe(rigger())
-        .pipe(sourcemaps.init())
+        //.pipe(sourcemaps.init())
         .pipe(sass())
-        .pipe(csscomb())
         .pipe(prefixer({
             browsers: ['last 15 versions'],
             cascade: false,
             grid: true
         }))
         .pipe(csscomb())
-        .pipe(sourcemaps.write())
+        //.pipe(sourcemaps.write())
         .pipe(gulp.dest(path.dist.css))
         .pipe(reload({ stream: true }));
 });
@@ -123,24 +122,11 @@ gulp.task('build', [
 ])
 
 
-gulp.task('watch', function() {
-    watch([path.watch.pug], function(event, cb) {
-        gulp.start('pug:build');
-    });
-    watch([path.watch.css], function(event, cb) {
-        gulp.start('css:build');
-    });
-    watch([path.watch.js], function(event, cb) {
-        gulp.start('js:build');
-    });
-    watch([path.watch.img], function(event, cb) {
-        gulp.start('images:build');
-    });
-    watch([path.watch.fonts], function(event, cb) {
-        gulp.start('fonts:build');
-    });
-});
-
+gulp.task('watch', ['images:build', 'fonts:build', 'css:build', 'js:build', 'pug:build'], function () {
+    gulp.watch(path.watch.css, ['css:build'])
+    gulp.watch(path.watch.js, ['js:build'])
+    gulp.watch(path.watch.pug, ['pug:build'])
+})
 
 gulp.task('webserver', function() {
     browserSync(config);

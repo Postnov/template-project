@@ -1,5 +1,5 @@
 {
-  "name": "EROS",
+  "name": "template_build_project",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Postnov/eros.git"
+    "url": "git+https://github.com/Postnov/template_build_project.git"
   },
   "keywords": [],
   "dependencies": {
@@ -16,9 +16,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Postnov/eros/issues"
+    "url": "https://github.com/Postnov/template_build_project/issues"
   },
-  "homepage": "https://github.com/Postnov/eros#readme",
+  "homepage": "https://github.com/Postnov/template_build_project#readme",
   "devDependencies": {
     "browser-sync": "^2.23.6",
     "gulp-autoprefixer": "^4.1.0",
