@@ -7,6 +7,8 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
     rigger = require('gulp-rigger'),
+    gutil = require('gulp-util'),
+    ftp = require('gulp-ftp'),
     pug = require('gulp-pug'),
     cssmin = require('gulp-minify-css'),
     imagemin = require('gulp-imagemin'),
@@ -24,7 +26,7 @@ var path = {
     dist: {
         html: 'dist/',
         js: 'dist/js/',
-        css: 'dist/',
+        css: 'dist/css',
         img: 'dist/images/',
         fonts: 'dist/fonts/'
     },
@@ -56,6 +58,22 @@ var config = {
     port: 9000,
     logPrefix: 'Postnov.Frontend'
 };
+
+
+gulp.task('deploy', function () {
+    return gulp.src('dist/**/*')
+        .pipe(ftp({
+            host: '*hostname*',
+            user: '*username*',
+            pass: '*password*',
+            remotePath: '*/path/path*'
+        }))
+        // you need to have some kind of stream after gulp-ftp to make sure it's flushed
+        // this can be a gulp plugin, gulp.dest, or any kind of stream
+        // here we use a passthrough stream
+        .pipe(gutil.noop());
+});
+
 
 
 
