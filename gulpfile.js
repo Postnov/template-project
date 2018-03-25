@@ -78,7 +78,7 @@ gulp.task('deploy', function () {
 
 
 gulp.task('pug:build', function() {
-    gulp.src(path.src.pug)
+    return gulp.src(path.src.pug)
         .pipe(rigger())
         .on('error', handleError)
         .pipe(pug({
@@ -91,7 +91,7 @@ gulp.task('pug:build', function() {
 
 
 gulp.task('js:build', function() {
-    gulp.src(path.src.js)
+    return gulp.src(path.src.js)
         .pipe(rigger())
         .on('error', handleError)
         //.pipe(sourcemaps.init())
@@ -105,7 +105,7 @@ gulp.task('js:build', function() {
 
 
 gulp.task('css:build', function() {
-    gulp.src(path.src.css)
+    return gulp.src(path.src.css)
         .pipe(rigger())
         .on('error', handleError)
         //.pipe(sourcemaps.init())
