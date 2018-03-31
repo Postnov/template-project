@@ -1,23 +1,22 @@
 'use strict';
 
-var gulp = require('gulp'),
-    watch = require('gulp-watch'),
-    prefixer = require('gulp-autoprefixer'),
-    uglify = require('gulp-uglify'),
-    sass = require('gulp-sass'),
-    sourcemaps = require('gulp-sourcemaps'),
-    rigger = require('gulp-rigger'),
-    gutil = require('gulp-util'),
-    ftp = require('gulp-ftp'),
-    pug = require('gulp-pug'),
-    cssmin = require('gulp-minify-css'),
-    imagemin = require('gulp-imagemin'),
-    pngquant = require('imagemin-pngquant'),
-    rimraf = require('rimraf'),
-    csscomb = require('gulp-csscomb'),
-    browserSync = require("browser-sync"),
-    notify = require('gulp-notify'),
-    reload = browserSync.reload;
+var gulp        = require('gulp'),
+    watch       = require('gulp-watch'),
+    prefixer    = require('gulp-autoprefixer'),
+    uglify      = require('gulp-uglify'),
+    sass        = require('gulp-sass'),
+    rigger      = require('gulp-rigger'),
+    gutil       = require('gulp-util'),
+    ftp         = require('gulp-ftp'),
+    pug         = require('gulp-pug'),
+    cssmin      = require('gulp-minify-css'),
+    rimraf      = require('rimraf'),
+    csscomb     = require('gulp-csscomb'),
+    browserSync = require('browser-sync'),
+    media_group = require('gulp-group-css-media-queries'),
+    rename      = require('gulp-rename'),
+    htmlbeauty  = require('gulp-html-beautify'),
+    reload      = browserSync.reload;
 
 
 
@@ -26,7 +25,7 @@ var path = {
     dist: {
         html: 'dist/',
         js: 'dist/js/',
-        css: 'dist/css',
+        css: 'dist/css/',
         img: 'dist/images/',
         fonts: 'dist/fonts/'
     },
@@ -68,9 +67,6 @@ gulp.task('deploy', function () {
             pass: '*password*',
             remotePath: '*/path/path*'
         }))
-        // you need to have some kind of stream after gulp-ftp to make sure it's flushed
-        // this can be a gulp plugin, gulp.dest, or any kind of stream
-        // here we use a passthrough stream
         .pipe(gutil.noop());
 });
 
@@ -80,11 +76,12 @@ gulp.task('deploy', function () {
 gulp.task('pug:build', function() {
     return gulp.src(path.src.pug)
         .pipe(rigger())
-        .on('error', handleError)
         .pipe(pug({
             pretty: true
         }))
-        .on('error', handleError)
+        .pipe(htmlbeauty({
+            indentSize: 4
+        }))
         .pipe(gulp.dest(path.dist.html))
         .pipe(reload({ stream: true }));
 })
@@ -93,11 +90,9 @@ gulp.task('pug:build', function() {
 gulp.task('js:build', function() {
     return gulp.src(path.src.js)
         .pipe(rigger())
-        .on('error', handleError)
-        //.pipe(sourcemaps.init())
+        .pipe(gulp.dest(path.dist.js))
         .pipe(uglify())
-        .on('error', handleError)
-        //.pipe(sourcemaps.write())
+        .pipe(rename({suffix:'.min'}))
         .pipe(gulp.dest(path.dist.js))
         .pipe(reload({ stream: true }));
 })
@@ -107,27 +102,20 @@ gulp.task('js:build', function() {
 gulp.task('css:build', function() {
     return gulp.src(path.src.css)
         .pipe(rigger())
-        .on('error', handleError)
-        //.pipe(sourcemaps.init())
         .pipe(sass())
-        .on('error', handleError)
         .pipe(prefixer({
             browsers: ['last 15 versions'],
             cascade: false,
             grid: true
         }))
         .pipe(csscomb())
-        //.pipe(sourcemaps.write())
+        .pipe(media_group())
+        .pipe(gulp.dest(path.dist.css))
+        .pipe(cssmin())
+        .pipe(rename({suffix:'.min'}))
         .pipe(gulp.dest(path.dist.css))
         .pipe(reload({ stream: true }));
 });
-
-
-
-function handleError(err) {
-    console.log(err.toString());
-    this.emit('end');
-}
 
 
 
