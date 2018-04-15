@@ -27,12 +27,16 @@ var path = {
         js: 'dist/js/',
         css: 'dist/css/',
         img: 'dist/images/',
-        fonts: 'dist/fonts/'
+        fonts: 'dist/fonts/',
+        blocks: 'dist/'
     },
     src: {
-        pug: 'src/pug/*.pug',
+        pug: ['!src/**/_*', 'src/*.pug'],
+        pugBlocks: ['!src/**/_*','!src/*.pug', 'src/**/*.pug'],
         css: 'src/css/main.scss',
+        cssBlocks: ['!src/**/_*','!src/css/main.scss', 'src/**/*.scss'],
         js: 'src/js/main.js',
+        jsBlocks: ['!src/**/_*','!src/js/main.js', 'src/**/*.js'],
         img: 'src/images/**/*.*',
         fonts: 'src/fonts/**/*.*'
     },
@@ -87,6 +91,21 @@ gulp.task('pug:build', function() {
 })
 
 
+
+gulp.task('pug:blocks', function() {
+    return gulp.src(path.src.pugBlocks)
+        .pipe(rigger())
+        .pipe(pug({
+            pretty: true
+        }))
+        .pipe(htmlbeauty({
+            indentSize: 4
+        }))
+        .pipe(gulp.dest(path.dist.blocks))
+        .pipe(reload({ stream: true }));
+})
+
+
 gulp.task('js:build', function() {
     return gulp.src(path.src.js)
         .pipe(rigger())
@@ -97,7 +116,15 @@ gulp.task('js:build', function() {
         .pipe(reload({ stream: true }));
 })
 
-
+gulp.task('js:blocks', function() {
+    return gulp.src(path.src.jsBlocks)
+        .pipe(rigger())
+        .pipe(gulp.dest(path.dist.blocks))
+        .pipe(uglify())
+        .pipe(rename({suffix:'.min'}))
+        .pipe(gulp.dest(path.dist.blocks))
+        .pipe(reload({ stream: true }));
+})
 
 gulp.task('css:build', function() {
     return gulp.src(path.src.css)
@@ -117,6 +144,20 @@ gulp.task('css:build', function() {
         .pipe(reload({ stream: true }));
 });
 
+
+gulp.task('css:blocks', function() {
+    return gulp.src(path.src.cssBlocks)
+        .pipe(rigger())
+        .pipe(sass())
+        .pipe(prefixer({
+            browsers: ['last 15 versions'],
+            cascade: false,
+            grid: true
+        }))
+        .pipe(csscomb())
+        .pipe(media_group())
+        .pipe(gulp.dest(path.dist.blocks))
+})
 
 
 gulp.task('images:build', function() {

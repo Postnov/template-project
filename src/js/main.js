@@ -1,6 +1,7 @@
 /*
- * Third party
+ * Libs
  */
+
 
 
 
@@ -9,4 +10,4 @@
  */
 
 
-//= partails/app.js
+//= ../blocks/map/map.js

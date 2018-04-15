@@ -1,20 +1,4 @@
-//= partails/normalize.scss
-//= partails/media-mixin.scss
-
-body{
-    color: red;
-    font-size: 13px;
-
-    @include media-mobile {
-        font-size: 5px;
-    }
-}
+//= ../base/_base_styles.scss
 
 
-p{
-    font-size: 20px;
-
-    @include media-mobile {
-        font-size: 15px;
-    }
-}
+//= ../blocks/map/map.scss

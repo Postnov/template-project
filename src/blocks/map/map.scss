@@ -1,0 +1,12 @@
+//= ./../../lib/_media-mixin.scss
+
+//= ./../articles/articles.scss
+
+.map {
+    overflow: hidden;
+    height: 500px;
+
+    @include media-mobile {
+        font-size: 20px;
+    }
+}
