@@ -12,7 +12,10 @@
   "keywords": [],
   "dependencies": {
     "gulp": "^3.8.11",
-    "gulp-critical-css": "^1.0.1"
+    "gulp-critical-css": "^1.0.1",
+    "gulp-flatten": "^0.4.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-replace": "^0.6.1"
   },
   "author": "",
   "license": "ISC",
