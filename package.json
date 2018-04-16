@@ -11,7 +11,8 @@
   },
   "keywords": [],
   "dependencies": {
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "gulp-critical-css": "^1.0.1"
   },
   "author": "",
   "license": "ISC",

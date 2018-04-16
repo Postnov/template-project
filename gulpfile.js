@@ -16,6 +16,7 @@ var gulp        = require('gulp'),
     media_group = require('gulp-group-css-media-queries'),
     rename      = require('gulp-rename'),
     htmlbeauty  = require('gulp-html-beautify'),
+    criticalCss = require('gulp-critical-css'),
     reload      = browserSync.reload;
 
 
@@ -138,8 +139,9 @@ gulp.task('css:build', function() {
         .pipe(csscomb())
         .pipe(media_group())
         .pipe(gulp.dest(path.dist.css))
+        .pipe(criticalCss())
+        .pipe(rename({suffix: '.min'}))
         .pipe(cssmin())
-        .pipe(rename({suffix:'.min'}))
         .pipe(gulp.dest(path.dist.css))
         .pipe(reload({ stream: true }));
 });
