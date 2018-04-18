@@ -2,7 +2,7 @@
  * Libs
  */
 
-//= ../lib/loadCss.js
+//import('../lib/loadCss.js')
 
 
 /*
@@ -10,4 +10,4 @@
  */
 
 
-//= ../blocks/header/nav/nav.js
+//import('../blocks/header/nav/nav.js')

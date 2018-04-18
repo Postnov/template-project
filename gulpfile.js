@@ -5,7 +5,6 @@ var gulp        = require('gulp'),
     prefixer    = require('gulp-autoprefixer'),
     uglify      = require('gulp-uglify'),
     sass        = require('gulp-sass'),
-    rigger      = require('gulp-rigger'),
     gutil       = require('gulp-util'),
     ftp         = require('gulp-ftp'),
     pug         = require('gulp-pug'),
@@ -19,6 +18,7 @@ var gulp        = require('gulp'),
     criticalCss = require('gulp-critical-css'),
     replace     = require('gulp-replace'),
     flatten     = require('gulp-flatten'),
+    imports     = require('gulp-imports'),
     plumber     = require('gulp-plumber'),
     reload      = browserSync.reload;
 
@@ -27,32 +27,33 @@ var gulp        = require('gulp'),
 
 var path = {
     dist: {
-        html: 'dist/',
-        js: 'dist/js/',
-        css: 'dist/css/',
-        img: 'dist/images/',
-        fonts: 'dist/fonts/',
+        html:   'dist/',
+        js:     'dist/js/',
+        css:    'dist/css/',
+        img:    'dist/images/',
+        fonts:  'dist/fonts/',
         blocks: 'dist/'
     },
     src: {
-        pug: ['!src/**/_*', 'src/*.pug'],
+        pug:       ['!src/**/_*', 'src/*.pug'],
         pugBlocks: ['!src/**/_*','!src/*.pug', 'src/**/*.pug'],
-        css: 'src/css/main.scss',
+        css:       'src/css/main.scss',
         cssBlocks: ['!src/**/_*','!src/css/main.scss', 'src/**/*.scss'],
-        js: 'src/js/main.js',
-        jsBlocks: ['!src/**/_*','!src/js/main.js', 'src/**/*.js'],
-        img: 'src/**/images/**/*.*',
-        fonts: 'src/fonts/**/*.*'
+        js:        'src/js/main.js',
+        jsBlocks:  ['!src/**/_*','!src/js/main.js', 'src/**/*.js'],
+        img:       'src/**/images/**/*.*',
+        fonts:     'src/fonts/**/*.*'
     },
     watch: {
-        js: 'src/**/*.js',
-        pug: 'src/**/*.pug',
-        css: 'src/**/*.scss',
-        img: 'src/**/images/**.*',
+        js:    'src/**/*.js',
+        pug:   'src/**/*.pug',
+        css:   'src/**/*.scss',
+        img:   'src/**/images/**.*',
         fonts: 'src/fonts/**/*.*'
     },
     clean: './dist'
 };
+
 
 
 
@@ -63,11 +64,11 @@ var config = {
     tunnel: true,
     host: 'localhost',
     port: 9000,
-    logPrefix: 'Postnov.Frontend'
+    logPrefix: 'template_build_project'
 };
 
 
-gulp.task('deploy', function () {
+gulp.task('ftp', function () {
     return gulp.src('dist/**/*')
         .pipe(ftp({
             host: '*hostname*',
@@ -80,10 +81,11 @@ gulp.task('deploy', function () {
 
 
 
+// Basic Task
+
 
 gulp.task('pug:build', function() {
     return gulp.src(path.src.pug)
-        .pipe(rigger())
         .pipe(pug({
             pretty: true
         }))
@@ -96,25 +98,9 @@ gulp.task('pug:build', function() {
 })
 
 
-
-gulp.task('pug:blocks', function() {
-    return gulp.src(path.src.pugBlocks)
-        .pipe(rigger())
-        .pipe(pug({
-            pretty: true
-        }))
-        .pipe(htmlbeauty({
-            indentSize: 4
-        }))
-        .pipe(plumber())
-        .pipe(gulp.dest(path.dist.blocks))
-        .pipe(reload({ stream: true }));
-})
-
-
 gulp.task('js:build', function() {
     return gulp.src(path.src.js)
-        .pipe(rigger())
+        .pipe(imports())
         .pipe(gulp.dest(path.dist.js))
         .pipe(uglify())
         .pipe(rename({suffix:'.min'}))
@@ -123,19 +109,9 @@ gulp.task('js:build', function() {
         .pipe(reload({ stream: true }));
 })
 
-gulp.task('js:blocks', function() {
-    return gulp.src(path.src.jsBlocks)
-        .pipe(rigger())
-        .pipe(gulp.dest(path.dist.blocks))
-        .pipe(uglify())
-        .pipe(rename({suffix:'.min'}))
-        .pipe(plumber())
-        .pipe(gulp.dest(path.dist.blocks))
-})
 
 gulp.task('css:build', function() {
     return gulp.src(path.src.css)
-        .pipe(rigger())
         .pipe(sass())
         .pipe(prefixer({
             browsers: ['last 15 versions'],
@@ -154,6 +130,7 @@ gulp.task('css:build', function() {
 });
 
 
+
 gulp.task('css:critical', function() {
     return gulp.src(['!dist/css/*.min.css', 'dist/css/*.css'])
         .pipe(criticalCss())
@@ -164,20 +141,6 @@ gulp.task('css:critical', function() {
         .pipe(gulp.dest(path.dist.css))
 })
 
-gulp.task('css:blocks', function() {
-    return gulp.src(path.src.cssBlocks)
-        .pipe(rigger())
-        .pipe(sass())
-        .pipe(prefixer({
-            browsers: ['last 15 versions'],
-            cascade: false,
-            grid: true
-        }))
-        .pipe(csscomb())
-        .pipe(media_group())
-        .pipe(plumber())
-        .pipe(gulp.dest(path.dist.blocks))
-})
 
 
 gulp.task('images:build', function() {
@@ -187,20 +150,13 @@ gulp.task('images:build', function() {
         .pipe(gulp.dest(path.dist.img))
 });
 
-gulp.task('images:blocks', function() {
-    gulp.src(path.src.img)
-        .pipe(plumber())
-        .pipe(gulp.dest(path.dist.blocks))
-});
-
-
-
 
 
 gulp.task('fonts:build', function() {
     gulp.src(path.src.fonts)
         .pipe(gulp.dest(path.dist.fonts))
 });
+
 
 
 gulp.task('build', [
@@ -214,8 +170,8 @@ gulp.task('build', [
     'css:critical',
     'js:blocks',
     'images:blocks',
-
 ])
+
 
 
 gulp.task('watch', ['images:build', 'fonts:build', 'css:build', 'js:build', 'pug:build'], function () {
@@ -225,12 +181,76 @@ gulp.task('watch', ['images:build', 'fonts:build', 'css:build', 'js:build', 'pug
     gulp.watch(path.watch.img, ['images:build', 'images:blocks'])
 })
 
+
+
 gulp.task('webserver', function() {
     browserSync(config);
 });
+
+
 
 gulp.task('clean', function(cb) {
     rimraf(path.clean, cb);
 });
 
+
+
 gulp.task('default', ['build', 'webserver', 'watch']);
+
+
+
+
+
+
+
+// Tasks blocks
+
+
+gulp.task('pug:blocks', function() {
+    return gulp.src(path.src.pugBlocks)
+        .pipe(pug({
+            pretty: true
+        }))
+        .pipe(htmlbeauty({
+            indentSize: 4
+        }))
+        .pipe(plumber())
+        .pipe(gulp.dest(path.dist.blocks))
+        .pipe(reload({ stream: true }));
+})
+
+
+
+gulp.task('js:blocks', function() {
+    return gulp.src(path.src.jsBlocks)
+        .pipe(imports())
+        .pipe(gulp.dest(path.dist.blocks))
+        .pipe(uglify())
+        .pipe(rename({suffix:'.min'}))
+        .pipe(plumber())
+        .pipe(gulp.dest(path.dist.blocks))
+})
+
+
+
+gulp.task('css:blocks', function() {
+    return gulp.src(path.src.cssBlocks)
+        .pipe(sass())
+        .pipe(prefixer({
+            browsers: ['last 15 versions'],
+            cascade: false,
+            grid: true
+        }))
+        .pipe(csscomb())
+        .pipe(media_group())
+        .pipe(plumber())
+        .pipe(gulp.dest(path.dist.blocks))
+})
+
+
+
+gulp.task('images:blocks', function() {
+    gulp.src(path.src.img)
+        .pipe(plumber())
+        .pipe(gulp.dest(path.dist.blocks))
+});

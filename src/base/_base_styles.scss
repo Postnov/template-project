@@ -1,6 +1,6 @@
-//= _variables.scss
-//= ../lib/_media-mixin.scss
-//= ../lib/_normalize.scss
+@import '_variables.scss';
+@import '../lib/_media-mixin.scss';
+@import '../lib/_normalize.scss';
 
 
 body {
