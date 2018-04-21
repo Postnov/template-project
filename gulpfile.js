@@ -14,7 +14,7 @@ var gulp        = require('gulp'),
     browserSync = require('browser-sync'),
     media_group = require('gulp-group-css-media-queries'),
     rename      = require('gulp-rename'),
-    htmlbeauty  = require('gulp-html-beautify'),
+    prettyHtml  = require('gulp-pretty-html'),
     criticalCss = require('gulp-critical-css'),
     replace     = require('gulp-replace'),
     flatten     = require('gulp-flatten'),
@@ -89,13 +89,15 @@ gulp.task('pug:build', function() {
         .pipe(pug({
             pretty: true
         }))
+        .pipe(prettyHtml({
+            indent_size: 4,
+            indent_char: ' ',
+            unformatted: ['code', 'pre', 'em', 'strong', 'i', 'b', 'br']
+        }))
         .on('error', function (err) {
             console.log(err.toString());
             this.emit('end');
-        })    
-        .pipe(htmlbeauty({
-            indentSize: 4
-        }))
+        })
         .pipe(plumber())
         .pipe(gulp.dest(path.dist.html))
         .pipe(reload({ stream: true }));
@@ -108,7 +110,7 @@ gulp.task('js:build', function() {
         .on('error', function (err) {
             console.log(err.toString());
             this.emit('end');
-        })        
+        })
         .pipe(gulp.dest(path.dist.js))
         .pipe(uglify())
         .pipe(rename({suffix:'.min'}))
@@ -124,7 +126,7 @@ gulp.task('css:build', function() {
         .on('error', function (err) {
             console.log(err.toString());
             this.emit('end');
-        })        
+        })
         .pipe(prefixer({
             browsers: ['last 15 versions'],
             cascade: false,
@@ -226,7 +228,7 @@ gulp.task('pug:blocks', function() {
         .on('error', function (err) {
             console.log(err.toString());
             this.emit('end');
-        })        
+        })
         .pipe(htmlbeauty({
             indentSize: 4
         }))
@@ -243,7 +245,7 @@ gulp.task('js:blocks', function() {
         .on('error', function (err) {
             console.log(err.toString());
             this.emit('end');
-        })        
+        })
         .pipe(gulp.dest(path.dist.blocks))
         .pipe(uglify())
         .pipe(rename({suffix:'.min'}))
@@ -259,7 +261,7 @@ gulp.task('css:blocks', function() {
         .on('error', function (err) {
             console.log(err.toString());
             this.emit('end');
-        })        
+        })
         .pipe(prefixer({
             browsers: ['last 15 versions'],
             cascade: false,

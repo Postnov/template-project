@@ -32,6 +32,7 @@
     "gulp-html-beautify": "^1.0.1",
     "gulp-imports": "0.0.3",
     "gulp-minify-css": "^1.2.4",
+    "gulp-pretty-html": "^2.0.9",
     "gulp-pug": "^3.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-rigger": "^0.5.8",
