@@ -89,6 +89,10 @@ gulp.task('pug:build', function() {
         .pipe(pug({
             pretty: true
         }))
+        .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+        })    
         .pipe(htmlbeauty({
             indentSize: 4
         }))
@@ -101,6 +105,10 @@ gulp.task('pug:build', function() {
 gulp.task('js:build', function() {
     return gulp.src(path.src.js)
         .pipe(imports())
+        .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+        })        
         .pipe(gulp.dest(path.dist.js))
         .pipe(uglify())
         .pipe(rename({suffix:'.min'}))
@@ -113,6 +121,10 @@ gulp.task('js:build', function() {
 gulp.task('css:build', function() {
     return gulp.src(path.src.css)
         .pipe(sass())
+        .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+        })        
         .pipe(prefixer({
             browsers: ['last 15 versions'],
             cascade: false,
@@ -211,6 +223,10 @@ gulp.task('pug:blocks', function() {
         .pipe(pug({
             pretty: true
         }))
+        .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+        })        
         .pipe(htmlbeauty({
             indentSize: 4
         }))
@@ -224,6 +240,10 @@ gulp.task('pug:blocks', function() {
 gulp.task('js:blocks', function() {
     return gulp.src(path.src.jsBlocks)
         .pipe(imports())
+        .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+        })        
         .pipe(gulp.dest(path.dist.blocks))
         .pipe(uglify())
         .pipe(rename({suffix:'.min'}))
@@ -236,6 +256,10 @@ gulp.task('js:blocks', function() {
 gulp.task('css:blocks', function() {
     return gulp.src(path.src.cssBlocks)
         .pipe(sass())
+        .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+        })        
         .pipe(prefixer({
             browsers: ['last 15 versions'],
             cascade: false,
