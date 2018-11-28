@@ -1,0 +1,43 @@
+{
+  "name": "template-project",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Postnov/template-project.git"
+  },
+  "keywords": [],
+  "dependencies": {
+    "gulp": "^3.8.11",
+    "gulp-critical-css": "^1.0.1",
+    "gulp-plumber": "^1.2.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Postnov/template-project/issues"
+  },
+  "homepage": "https://github.com/Postnov/template-project#readme",
+  "devDependencies": {
+    "browser-sync": "^2.23.6",
+    "gulp-autoprefixer": "^4.1.0",
+    "gulp-csscomb": "^3.0.8",
+    "gulp-ftp": "^1.1.0",
+    "gulp-group-css-media-queries": "^1.2.2",
+    "gulp-html-beautify": "^1.0.1",
+    "gulp-imports": "0.0.3",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-pretty-html": "^2.0.9",
+    "gulp-pug": "^3.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rigger": "^0.5.8",
+    "gulp-rimraf": "^0.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^5.0.0"
+  }
+}

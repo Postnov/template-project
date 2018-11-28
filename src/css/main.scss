@@ -1,0 +1,21 @@
+@import 'partails/normalize.scss';
+@import 'partails/media-mixin.scss';
+
+body{
+    critical: this;
+    color: red;
+    font-size: 13px;
+
+    @include media-mobile {
+        font-size: 5px;
+    }
+}
+
+
+p{
+    font-size: 20px;
+
+    @include media-mobile {
+        font-size: 15px;
+    }
+}
