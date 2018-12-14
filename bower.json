@@ -13,6 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "normalize.css": "*"
+    "normalize.css": "*",
+    "owl.carousel": "^2.3.4"
   }
 }

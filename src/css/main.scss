@@ -1,21 +1,17 @@
-@import 'partails/normalize.scss';
-@import 'partails/media-mixin.scss';
+@import 'base/vars.scss';
+@import 'base/media-mixin.scss';
 
-body{
-    critical: this;
-    color: red;
-    font-size: 13px;
-
-    @include media-mobile {
-        font-size: 5px;
-    }
-}
+//base
+@import 'base/base.scss';
+@import 'base/normalize.scss';
+@import 'base/fonts.scss';
 
 
-p{
-    font-size: 20px;
+//libs
 
-    @include media-mobile {
-        font-size: 15px;
-    }
-}
+
+//components
+
+
+
+
