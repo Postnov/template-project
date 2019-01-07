@@ -8,6 +8,7 @@ var gulp        = require('gulp'),
     browserSync = require('browser-sync'),
     gulpSequence = require('gulp-sequence'),
     reload      = browserSync.reload,
+    changed     = require('gulp-changed'),
 
     //css
     sass        = require('gulp-sass'),
@@ -23,9 +24,19 @@ var gulp        = require('gulp'),
     //html, pug
     pug         = require('gulp-pug'),
     prettyHtml  = require('gulp-pretty-html'),
+    html2pug    = require('gulp-html2pug'),
 
     //img
-    tinypng = require('gulp-tinypng-unlimited');
+    tinypng     = require('gulp-tinypng-unlimited'),
+
+
+    //svg
+
+    svgSprite = require('gulp-svg-sprites'),
+	svgmin = require('gulp-svgmin'),
+	cheerio = require('gulp-cheerio'),
+	replace = require('gulp-replace');
+
 
 
 
@@ -66,9 +77,41 @@ var config = {
 };
 
 
+gulp.task('svg-sprite', function (cb) {
+    return gulp.src('src/svg-separate/**/*.svg')
+        //minify svg
+        .pipe(svgmin({
+            js2svg: {
+                pretty: true
+            }
+        }))
+		// remove all fill and style declarations in out shapes
+		.pipe(cheerio({
+			run: function ($) {
+				$('[fill]').removeAttr('fill');
+				$('[style]').removeAttr('style');
+			},
+			parserOptions: { xmlMode: true }
+        }))
+		// cheerio plugin create unnecessary string '>', so replace it.
+		.pipe(replace('&gt;', '>'))
+		.pipe(svgSprite({
+            mode: "symbols",
+            preview: false,
+            selector: "svg-%f",
+            svg: {
+                symbols: 'svg_sprite.pug'
+            }
+        }
+        ))
+        .pipe(gulp.dest('src/pug/partails/'))
+});
+
+
 
 gulp.task('pug:build', function() {
     return gulp.src(path.src.pug)
+        .pipe(changed(path.dist.html, {extension: '.html'}))
         .pipe(pug({
             pretty: true
         }))
@@ -158,11 +201,6 @@ gulp.task('images:optimize', function (cb) {
 gulp.task('images:build', function () {
     gulp.src(path.src.img)
         .pipe(gulp.dest(path.dist.img))
-        .on('error', function (err) {
-            console.log(err.toString());
-            this.emit('end');
-        })
-        .pipe(plumber())
 });
 
 
@@ -173,11 +211,11 @@ gulp.task('fonts:build', function() {
 
 
 gulp.task('build', gulpSequence(
-    ['pug:build', 'css:build', 'js:build', 'images:optimize', 'fonts:build'],
+    ['svg-sprite','pug:build', 'css:build', 'js:build', 'images:optimize', 'fonts:build'],
     ['pug:comb','css:polish', 'js:min']
 ));
 
-gulp.task('watch', ['pug:build', 'css:build', 'js:build', 'images:build', 'images:build'], function () {
+gulp.task('watch', ['svg-sprite','pug:build', 'css:build', 'js:build', 'images:build', 'images:build'], function () {
     gulp.watch(path.watch.css, ['css:build'])
     gulp.watch(path.watch.js, ['js:build'])
     gulp.watch(path.watch.pug, ['pug:build'])
