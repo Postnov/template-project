@@ -104,6 +104,7 @@ gulp.task('svg-sprite', function (cb) {
             }
         }
         ))
+        .pipe(replace('NaN', ''))
         .pipe(gulp.dest('src/pug/partails/'))
 });
 
