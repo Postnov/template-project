@@ -31,11 +31,11 @@ var gulp        = require('gulp'),
 
 
     //svg
-
-    svgSprite = require('gulp-svg-sprites'),
 	svgmin = require('gulp-svgmin'),
 	cheerio = require('gulp-cheerio'),
-	replace = require('gulp-replace');
+    replace = require('gulp-replace'),
+    svgSprite = require('gulp-svg-sprite'),
+    html2pug = require('gulp-html2pug');
 
 
 
@@ -60,7 +60,8 @@ var path = {
         pug:    'src/**/*.pug',
         css:    'src/**/*.scss',
         img:    'src/images/**/*.*',
-        fonts:  'src/fonts/**/*.*'
+        fonts:  'src/fonts/**/*.*',
+        svg:    'src/images/**/*.svg'
     },
     clean: './dist',
     cleanImg: './dist/images'
@@ -76,9 +77,26 @@ var config = {
     port: 3001,
 };
 
+var svgconfig = {
+    shape: {
+        dimension: {         // Set maximum dimensions
+            maxWidth: 500,
+            maxHeight: 500
+        },
+        spacing: {         // Add padding
+            padding: 0
+        }
+    },
+    mode: {
+        symbol: {
+            dest : '.'
+        }
+    }
+};
+
 
 gulp.task('svg-sprite', function (cb) {
-    return gulp.src('src/svg-separate/**/*.svg')
+    return gulp.src('src/images/svg-separate/**/*.svg')
         //minify svg
         .pipe(svgmin({
             js2svg: {
@@ -89,22 +107,18 @@ gulp.task('svg-sprite', function (cb) {
 		.pipe(cheerio({
 			run: function ($) {
 				$('[fill]').removeAttr('fill');
-				$('[style]').removeAttr('style');
+                $('[style]').removeAttr('style');
 			},
 			parserOptions: { xmlMode: true }
         }))
 		// cheerio plugin create unnecessary string '>', so replace it.
 		.pipe(replace('&gt;', '>'))
-		.pipe(svgSprite({
-            mode: "symbols",
-            preview: false,
-            selector: "svg-%f",
-            svg: {
-                symbols: 'svg_sprite.pug'
-            }
-        }
-        ))
-        .pipe(replace('NaN', ''))
+        .pipe(svgSprite(svgconfig))
+        .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+        })
+        .pipe(html2pug())
         .pipe(gulp.dest('src/pug/partails/'))
 });
 
@@ -221,6 +235,7 @@ gulp.task('watch', ['svg-sprite','pug:build', 'css:build', 'js:build', 'images:b
     gulp.watch(path.watch.js, ['js:build'])
     gulp.watch(path.watch.pug, ['pug:build'])
     gulp.watch(path.watch.img, ['images:build'])
+    gulp.watch(path.watch.svg, ['svg-sprite'])
 })
 
 gulp.task('webserver', function() {
