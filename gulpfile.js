@@ -119,6 +119,11 @@ gulp.task('svg-sprite', function (cb) {
             this.emit('end');
         })
         .pipe(html2pug())
+        .pipe(replace('html', ''))
+        .pipe(replace('head', ''))
+        .pipe(replace('body', ''))
+        .pipe(replace('//?xml version="1.0" encoding="utf-8"?', '.svg-sprite__symbols'))
+        .pipe(gulp.dest('src/pug/partails'))
         .pipe(gulp.dest('src/pug/partails/'))
 });
 
