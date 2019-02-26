@@ -21,6 +21,7 @@ var gulp        = require('gulp'),
     imports     = require('gulp-imports'),
     minify      = require('gulp-minify'),
     babel       = require('gulp-babel'),
+    eslint      = require('gulp-eslint'),
 
     //html, pug
     pug         = require('gulp-pug'),
@@ -176,14 +177,30 @@ gulp.task('js:build', function () {
         .pipe(babel({
             presets: ['@babel/env']
         }))
-        .on('error', function (err) {
-            console.log(err.toString());
-            this.emit('end');
-        })
+        // .on('error', function (err) {
+        //     console.log(err.toString());
+        //     this.emit('end');
+        // })
         .pipe(plumber())
         .pipe(gulp.dest(path.dist.js))
         .pipe(reload({ stream: true }));
 })
+
+gulp.task('js:lint', function() {
+    var filename;
+    // var glob = path.src.js;
+    var glob = 'src/js/partails/common.js';
+
+    if (process.argv[3] === '--options') {
+      filename = process.argv[4];
+      glob = 'src/js/' + filename;
+    }
+
+    return gulp.src(glob)
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError())
+});
 
 gulp.task('js:comb', function () {
     return gulp.src(path.src.js)
@@ -251,7 +268,7 @@ gulp.task('build', gulpSequence(
 
 gulp.task('watch', ['svg:build','pug:build', 'css:build', 'js:build', 'images:build', 'images:build'], function () {
     gulp.watch(path.watch.css, ['css:build'])
-    gulp.watch(path.watch.js, ['js:build'])
+    gulp.watch(path.watch.js, ['js:build', 'js:lint'])
     gulp.watch(path.watch.pug, ['pug:build'])
     gulp.watch(path.watch.img, ['images:build'])
     gulp.watch(path.watch.svg, ['svg:build'])
