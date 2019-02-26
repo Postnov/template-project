@@ -185,7 +185,7 @@ gulp.task('js:build', function () {
         .pipe(reload({ stream: true }));
 })
 
-gulp.task('js:min', function () {
+gulp.task('js:comb', function () {
     return gulp.src(path.src.js)
         .pipe(imports())
         .pipe(babel({
@@ -208,7 +208,7 @@ gulp.task('css:build', function () {
         .pipe(reload({ stream: true }));
 });
 
-gulp.task('css:polish', function () {
+gulp.task('css:comb', function () {
     return gulp.src(path.src.css)
         .pipe(sass())
         .pipe(prefixer({
@@ -228,8 +228,7 @@ gulp.task('css:polish', function () {
 
 gulp.task('images:optimize', function (cb) {
     return gulp.src(path.src.img)
-        .pipe(tinypng({
-        }))
+        .pipe(tinypng())
         .pipe(gulp.dest(path.dist.img))
 });
 
@@ -247,7 +246,7 @@ gulp.task('fonts:build', function() {
 
 gulp.task('build', gulpSequence(
     ['svg:build','pug:build', 'css:build', 'js:build', 'images:optimize', 'fonts:build'],
-    ['pug:comb','css:polish', 'js:min']
+    ['pug:comb','css:comb', 'js:comb']
 ));
 
 gulp.task('watch', ['svg:build','pug:build', 'css:build', 'js:build', 'images:build', 'images:build'], function () {
