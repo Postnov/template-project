@@ -42,8 +42,8 @@
 
 ## Линтинг
 Для того чтобы проверить конкретный файл или файлы в папке, введите в консоли:<br>
-<code>gulp js:lint --specific'</code>и путь до вашего файла, по-умолчанию путь уже содержит 'src/js', вам нужно подставить лишь конечный путь или папку: <br>
-<code>gulp js:lint --specific partails/common.js</code> - проверит файл по адресу 'src/js/partails/common.js'. <br>
+<code>gulp js:lint --specific'</code> и путь до вашего файла, по-умолчанию путь уже содержит 'src/js', вам нужно подставить лишь конечный путь или папку: <br>
+<code>gulp js:lint --specific partails/common.js</code> - проверит файл по адресу 'src/js/partails/common.js'. <br><br>
 Поддерживает ввод таких путей:
 <code>gulp js:lint --specific partails/**/\*.js</code> - проверит все js-файлы папки partails и все js-файлы подпапок.
 <code>gulp js:lint --specific partails/*.js</code> - проверит все js-файлы папки partails.
