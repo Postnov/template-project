@@ -20,6 +20,7 @@ var gulp        = require('gulp'),
     //js
     imports     = require('gulp-imports'),
     minify      = require('gulp-minify'),
+    babel       = require('gulp-babel'),
 
     //html, pug
     pug         = require('gulp-pug'),
@@ -172,6 +173,9 @@ gulp.task('pug:comb', function () {
 gulp.task('js:build', function () {
     return gulp.src(path.src.js)
         .pipe(imports())
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
         .on('error', function (err) {
             console.log(err.toString());
             this.emit('end');
@@ -184,6 +188,9 @@ gulp.task('js:build', function () {
 gulp.task('js:min', function () {
     return gulp.src(path.src.js)
         .pipe(imports())
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
         .pipe(minify())
         .pipe(gulp.dest(path.dist.js))
         .pipe(reload({ stream: true }));

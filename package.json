@@ -29,9 +29,12 @@
   },
   "homepage": "https://github.com/Postnov/template-project#readme",
   "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "browser-sync": "^2.26.3",
     "gulp": "3.9.1",
     "gulp-autoprefixer": "^6.0.0",
+    "gulp-babel": "^8.0.0",
     "gulp-cssbeautify": "^1.0.1",
     "gulp-csscomb": "^3.0.8",
     "gulp-group-css-media-queries": "^1.2.2",
