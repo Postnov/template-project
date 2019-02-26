@@ -5,7 +5,13 @@ html(lang="ru")
 
         include partails/header.pug
 
+        h1 Особенности шаблона:
+        ul
+            li Кэширование svg-файлов
+            li Поддержка es6 синтаксиса (примеры в src/js/partails/common.js)
+
         // Использование svg-спрайта
+        p Пример иконки из svg-спрайта (он уже закешировался)
         +icon('cart', 'red-mode')
 
 
