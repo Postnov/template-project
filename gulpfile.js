@@ -44,20 +44,22 @@ var gulp        = require('gulp'),
 
 var path = {
     dist: {
-        html:   'dist/',
-        js:     'dist/js/',
-        css:    'dist/css/',
-        img:    'dist/images/',
-        fonts:  'dist/fonts/',
-        svgSprite: path.dist.img
+        html     : 'dist/',
+        js       : 'dist/js/',
+        css      : 'dist/css/',
+        img      : 'dist/images/',
+        fonts    : 'dist/fonts/',
+        svgSprite: 'dist/images/'
     },
     src: {
-        pug:    'src/pug/*.pug',
-        css:    'src/css/main.scss',
-        js:     'src/js/main.js',
-        img:    'src/images/**/*.*',
-        fonts:  'src/fonts/**/*.*',
-        svgSep: 'src/images/svg-separate/**/*.svg',
+        pug     : 'src/pug/*.pug',
+        css     : 'src/css/main.scss',
+        jsCommon: 'src/js/',
+        js      : 'src/js/main.js',
+        jsLint  : 'src/js/partails/common.js',
+        img     : 'src/images/**/*.*',
+        fonts   : 'src/fonts/**/*.*',
+        svgSep  : 'src/images/svg-separate/**/*.svg',
     },
     watch: {
         js:     'src/**/*.js',
@@ -189,12 +191,13 @@ gulp.task('js:build', function () {
 })
 
 gulp.task('js:lint', function() {
-    var filename;
-    var glob = path.src.js;
+    var userPath;
+    var glob = path.src.jsLint;
 
-    if (process.argv[3] === '--options') {
-      filename = process.argv[4];
-      glob = 'src/js/' + filename;
+    if (process.argv[3] === '--specific') {
+      userPath = process.argv[4];
+      glob = path.src.jsCommon + userPath;
+      console.log(userPath);
     }
 
     return gulp.src(glob)
