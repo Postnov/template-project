@@ -48,14 +48,16 @@ var path = {
         js:     'dist/js/',
         css:    'dist/css/',
         img:    'dist/images/',
-        fonts:  'dist/fonts/'
+        fonts:  'dist/fonts/',
+        svgSprite: path.dist.img
     },
     src: {
         pug:    'src/pug/*.pug',
         css:    'src/css/main.scss',
         js:     'src/js/main.js',
         img:    'src/images/**/*.*',
-        fonts:  'src/fonts/**/*.*'
+        fonts:  'src/fonts/**/*.*',
+        svgSep: 'src/images/svg-separate/**/*.svg',
     },
     watch: {
         js:     'src/**/*.js',
@@ -98,7 +100,7 @@ var svgconfig = {
 
 
 gulp.task('svg:compile', function (cb) {
-    return gulp.src('src/images/svg-separate/**/*.svg')
+    return gulp.src(path.src.svgSep)
         //minify svg
         .pipe(svgmin({
             js2svg: {
@@ -132,7 +134,7 @@ gulp.task('svg:cached', function() {
             console.log(err.toString());
             this.emit('end');
         })
-        .pipe(gulp.dest(path.dist.img))
+        .pipe(gulp.dest(path.dist.svgSprite))
 });
 
 gulp.task('svg:build', gulpSequence(
@@ -188,8 +190,7 @@ gulp.task('js:build', function () {
 
 gulp.task('js:lint', function() {
     var filename;
-    // var glob = path.src.js;
-    var glob = 'src/js/partails/common.js';
+    var glob = path.src.js;
 
     if (process.argv[3] === '--options') {
       filename = process.argv[4];
