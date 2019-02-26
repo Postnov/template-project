@@ -140,7 +140,7 @@ gulp.task('svg:build', gulpSequence(
 
 gulp.task('pug:build', function() {
     return gulp.src(path.src.pug)
-        .pipe(changed(path.dist.html, {extension: '.html'}))
+        // .pipe(changed(path.dist.html, {extension: '.html'})) // раскомментируйте эту строку для того, чтобы pug компилировал только корневые файлы в pug/*.pug. Это позволит уменьшить время компиляции
         .pipe(pug({
             pretty: true
         }))
