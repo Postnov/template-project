@@ -85,17 +85,17 @@ var svgconfig = {
         },
         spacing: {         // Add padding
             padding: 0
-        }
+        },
     },
     mode: {
-        symbol: {
-            dest : '.'
+        stack: {
+            sprite: 'sprite.pug'
         }
     }
 };
 
 
-gulp.task('svg-sprite', function (cb) {
+gulp.task('svg:compile', function (cb) {
     return gulp.src('src/images/svg-separate/**/*.svg')
         //minify svg
         .pipe(svgmin({
@@ -118,16 +118,24 @@ gulp.task('svg-sprite', function (cb) {
             console.log(err.toString());
             this.emit('end');
         })
-        .pipe(html2pug())
-        .pipe(replace('html', ''))
-        .pipe(replace('head', ''))
-        .pipe(replace('body', ''))
-        .pipe(replace('//?xml version="1.0" encoding="utf-8"?', '.svg-sprite__symbols'))
         .pipe(gulp.dest('src/pug/partails'))
-        .pipe(gulp.dest('src/pug/partails/'))
 });
 
+gulp.task('svg:cached', function() {
+    return gulp.src('src/pug/partails/stack/sprite-result.pug')
+        .pipe(pug({
+            pretty: true
+        }))
+        .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+        })
+        .pipe(gulp.dest(path.dist.img))
+});
 
+gulp.task('svg:build', gulpSequence(
+    ['svg:compile'], ['svg:cached']
+))
 
 gulp.task('pug:build', function() {
     return gulp.src(path.src.pug)
@@ -231,16 +239,16 @@ gulp.task('fonts:build', function() {
 
 
 gulp.task('build', gulpSequence(
-    ['svg-sprite','pug:build', 'css:build', 'js:build', 'images:optimize', 'fonts:build'],
+    ['svg:build','pug:build', 'css:build', 'js:build', 'images:optimize', 'fonts:build'],
     ['pug:comb','css:polish', 'js:min']
 ));
 
-gulp.task('watch', ['svg-sprite','pug:build', 'css:build', 'js:build', 'images:build', 'images:build'], function () {
+gulp.task('watch', ['svg:build','pug:build', 'css:build', 'js:build', 'images:build', 'images:build'], function () {
     gulp.watch(path.watch.css, ['css:build'])
     gulp.watch(path.watch.js, ['js:build'])
     gulp.watch(path.watch.pug, ['pug:build'])
     gulp.watch(path.watch.img, ['images:build'])
-    gulp.watch(path.watch.svg, ['svg-sprite'])
+    gulp.watch(path.watch.svg, ['svg:build'])
 })
 
 gulp.task('webserver', function() {
