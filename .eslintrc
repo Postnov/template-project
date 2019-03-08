@@ -1,7 +1,20 @@
 {
-    "extends": "airbnb/legacy",
-    "parser": "babel-eslint",
-    "rules": {
-        "no-console": "off"
-    }
+  "extends": "airbnb/legacy",
+  "parser": "babel-eslint",
+  "rules": {
+      "no-console": "off",
+      "no-use-before-define": ["error", { "functions": false }],
+      "func-names": ["error", "never"],
+      "one-var": [2, {
+          "var": "always",
+          "let": "always",
+          "const": "never"
+      }]
+  },
+  "env": {
+      "browser": true,
+      "commonjs": true,
+      "es6": true,
+      "jquery": true
+  }
 }
