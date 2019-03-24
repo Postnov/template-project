@@ -146,14 +146,13 @@ gulp.task('svg:build', gulpSequence(
 gulp.task('pug:build', function() {
     return gulp.src(path.src.pug)
         // .pipe(changed(path.dist.html, {extension: '.html'})) // раскомментируйте эту строку для того, чтобы pug компилировал только корневые файлы в pug/*.pug. Это позволит уменьшить время компиляции
-        .pipe(pug({
-            pretty: true
-        }))
-        .on('error', function (err) {
+        .pipe(
+          pug({pretty: true})
+          .on('error', function (err) {
             console.log(err.toString());
             this.emit('end');
-        })
-        .pipe(plumber())
+          })
+        )
         .pipe(gulp.dest(path.dist.html))
         .pipe(reload({ stream: true }));
 })
@@ -161,9 +160,15 @@ gulp.task('pug:build', function() {
 
 gulp.task('pug:comb', function () {
     return gulp.src(path.src.pug)
-        .pipe(pug({
+        .pipe(
+          pug({
             pretty: true
-        }))
+          })
+          .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+          })
+        )
         .pipe(prettyHtml({
             indent_size: 4,
             indent_char: ' ',
@@ -177,14 +182,22 @@ gulp.task('pug:comb', function () {
 
 gulp.task('js:build', function () {
     return gulp.src(path.src.js)
-        .pipe(imports())
-        .pipe(babel({
+        .pipe(
+          imports()
+          .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+          })
+        )
+        .pipe(
+          babel({
             presets: ['@babel/env']
-        }))
-        // .on('error', function (err) {
-        //     console.log(err.toString());
-        //     this.emit('end');
-        // })
+          })
+          .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+          })
+        )
         .pipe(plumber())
         .pipe(gulp.dest(path.dist.js))
         .pipe(reload({ stream: true }));
@@ -201,7 +214,13 @@ gulp.task('js:lint', function() {
     }
 
     return gulp.src(glob)
-        .pipe(eslint())
+        .pipe(
+          eslint()
+          .on('error', function (err) {
+            console.log(err.toString());
+            this.emit('end');
+          })
+        )
         .pipe(eslint.format())
         .pipe(eslint.failAfterError())
 });
@@ -219,11 +238,13 @@ gulp.task('js:comb', function () {
 
 gulp.task('css:build', function () {
     return gulp.src(path.src.css)
-        .pipe(sass())
-        .on('error', function (err) {
+        .pipe(
+          sass()
+          .on('error', function (err) {
             console.log(err.toString());
             this.emit('end');
-        })
+          })
+        )
         .pipe(plumber())
         .pipe(gulp.dest(path.dist.css))
         .pipe(reload({ stream: true }));
@@ -238,7 +259,6 @@ gulp.task('css:comb', function () {
             grid: false
         }))
         .pipe(media_group())
-        .pipe(csscomb('.csscomb.json'))
         .pipe(gulp.dest(path.dist.css))
         .pipe(rename({ suffix: '.min' }))
         .pipe(cssmin())
