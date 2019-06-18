@@ -1,3 +1,3 @@
- //import('./partails/common.js')
+ //import('./partials/common.js')
 
 
