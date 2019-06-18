@@ -1,0 +1,93 @@
+/* responsive columns */
+.row {margin: 0 -20px; display: flex; flex-wrap: wrap;}
+.col {padding: 0 20px; min-height: 1px; box-sizing: border-box; flex: 1 0 0;
+  &-8 {max-width: 8.33%; flex-basis: 8.33%;}
+  &-10 {max-width: 10%; flex-basis: 10%;}
+  &-12 {max-width: 12.5%; flex-basis: 12.5%;}
+  &-15 {max-width: 15%; flex-basis: 15%;}
+  &-16 {max-width: 16.66%; flex-basis: 16.66%;}
+  &-18 {max-width: 18%; flex-basis: 18%;}
+  &-20 {max-width: 20%; flex-basis: 20%;}
+  &-23 {max-width: 23%; flex-basis: 23%;}
+  &-25 {max-width: 25%; flex-basis: 25%;}
+  &-30 {max-width: 30%; flex-basis: 30%;}
+  &-32 {max-width: 32%; flex-basis: 32%;}
+  &-33 {max-width: 33.33%; flex-basis: 33.33%;}
+  &-40 {max-width: 40%; flex-basis: 40%;}
+  &-50 {max-width: 50%; flex-basis: 50%;}
+  &-60 {max-width: 60%; flex-basis: 60%;}
+  &-66 {max-width: 66.66%; flex-basis: 66.66%;}
+  &-68 {max-width: 68%; flex-basis: 68%;}
+  &-70 {max-width: 70%; flex-basis: 70%;}
+  &-75 {max-width: 75%; flex-basis: 75%;}
+  &-77 {max-width: 77%; flex-basis: 77%;}
+  &-80 {max-width: 80%; flex-basis: 80%;}
+  &-82 {max-width: 82%; flex-basis: 82%;}
+  &-83 {max-width: 83.34%; flex-basis: 83.34%;}
+  &-85 {max-width: 85%; flex-basis: 85%;}
+  &-88 {max-width: 88%; flex-basis: 88%;}
+  &-90 {max-width: 90%; flex-basis: 90%;}
+  &-92 {max-width: 92%; flex-basis: 92%;}
+  &-100 {max-width: 100%; flex-basis: 100%;}
+
+  @media (max-width: $tablet) {
+    &-t-8 {max-width: 8.33%; flex-basis: 8.33%;}
+    &-t-10 {max-width: 10%; flex-basis: 10%;}
+    &-t-12 {max-width: 12.5%; flex-basis: 12.5%;}
+    &-t-15 {max-width: 15%; flex-basis: 15%;}
+    &-t-16 {max-width: 16.66%; flex-basis: 16.66%;}
+    &-t-18 {max-width: 18%; flex-basis: 18%;}
+    &-t-20 {max-width: 20%; flex-basis: 20%;}
+    &-t-23 {max-width: 23%; flex-basis: 23%;}
+    &-t-25 {max-width: 25%; flex-basis: 25%;}
+    &-t-30 {max-width: 30%; flex-basis: 30%;}
+    &-t-32 {max-width: 32%; flex-basis: 32%;}
+    &-t-33 {max-width: 33.33%; flex-basis: 33.33%;}
+    &-t-40 {max-width: 40%; flex-basis: 40%;}
+    &-t-50 {max-width: 50%; flex-basis: 50%;}
+    &-t-60 {max-width: 60%; flex-basis: 60%;}
+    &-t-66 {max-width: 66.66%; flex-basis: 66.66%;}
+    &-t-68 {max-width: 68%; flex-basis: 68%;}
+    &-t-70 {max-width: 70%; flex-basis: 70%;}
+    &-t-75 {max-width: 75%; flex-basis: 75%;}
+    &-t-77 {max-width: 77%; flex-basis: 77%;}
+    &-t-80 {max-width: 80%; flex-basis: 80%;}
+    &-t-82 {max-width: 82%; flex-basis: 82%;}
+    &-t-83 {max-width: 83.34%; flex-basis: 83.34%;}
+    &-t-85 {max-width: 85%; flex-basis: 85%;}
+    &-t-88 {max-width: 88%; flex-basis: 88%;}
+    &-t-90 {max-width: 90%; flex-basis: 90%;}
+    &-t-92 {max-width: 92%; flex-basis: 92%;}
+    &-t-100 {max-width: 100%; flex-basis: 100%;}
+  }
+  @media (max-width: $mobile) {
+    &-m-8 {max-width: 8.33%; flex-basis: 8.33%;}
+    &-m-10 {max-width: 10%; flex-basis: 10%;}
+    &-m-12 {max-width: 12.5%; flex-basis: 12.5%;}
+    &-m-15 {max-width: 15%; flex-basis: 15%;}
+    &-m-16 {max-width: 16.66%; flex-basis: 16.66%;}
+    &-m-18 {max-width: 18%; flex-basis: 18%;}
+    &-m-20 {max-width: 20%; flex-basis: 20%;}
+    &-m-23 {max-width: 23%; flex-basis: 23%;}
+    &-m-25 {max-width: 25%; flex-basis: 25%;}
+    &-m-30 {max-width: 30%; flex-basis: 30%;}
+    &-m-32 {max-width: 32%; flex-basis: 32%;}
+    &-m-33 {max-width: 33.33%; flex-basis: 33.33%;}
+    &-m-40 {max-width: 40%; flex-basis: 40%;}
+    &-m-50 {max-width: 50%; flex-basis: 50%;}
+    &-m-60 {max-width: 60%; flex-basis: 60%;}
+    &-m-66 {max-width: 66.66%; flex-basis: 66.66%;}
+    &-m-68 {max-width: 68%; flex-basis: 68%;}
+    &-m-70 {max-width: 70%; flex-basis: 70%;}
+    &-m-75 {max-width: 75%; flex-basis: 75%;}
+    &-m-77 {max-width: 77%; flex-basis: 77%;}
+    &-m-80 {max-width: 80%; flex-basis: 80%;}
+    &-m-82 {max-width: 82%; flex-basis: 82%;}
+    &-m-83 {max-width: 83.34%; flex-basis: 83.34%;}
+    &-m-85 {max-width: 85%; flex-basis: 85%;}
+    &-m-88 {max-width: 88%; flex-basis: 88%;}
+    &-m-90 {max-width: 90%; flex-basis: 90%;}
+    &-m-92 {max-width: 92%; flex-basis: 92%;}
+    &-m-100 {max-width: 100%; flex-basis: 100%;}
+  }
+}

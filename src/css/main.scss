@@ -1,17 +1,22 @@
 @import 'base/vars.scss';
-@import 'base/media-mixin.scss';
+@import 'base/grid.scss';
 
-//base
-@import 'base/base.scss';
-@import 'base/normalize.scss';
-@import 'base/fonts.scss';
+body {font-size: 16px;font-family: Arial;box-sizing: border-box;background-color: #f7f7f1;
+  &.no-scroll {overflow: hidden;}
+}
 
+*{box-sizing: inherit;}
+p {line-height: 1.5;}
+img {max-width: 100%;}
 
-//libs
+/* helpers */
 
+.container {max-width: 1200px;padding-left: 25px;padding-right: 25px;margin-left: auto;margin-right: auto;}
 
-//components
-
+.demo-responsive {width: 33%;
+  @media (max-width: $tablet) {width: 50%;}
+  @media (max-width: $mobile) {width: 50%;}
+}
 
 
 
