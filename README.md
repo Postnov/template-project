@@ -9,7 +9,6 @@
 - линтинг кода с eslint, конфигурация AirBnb
 - Babel (возможность использовать es6)
 - Возможность импорта js файлов (подробности подключения ниже)
-- Компиляция и кэширование svg-спрайта
 
 После скачивания или клонирования в командой строке необходимо установить все пакеты, выполните <code>npm i</code>. Некоторые плагины могут не установиться со всеми, их нужно установить вручную.<br>
 
@@ -27,7 +26,6 @@
 <code>gulp fonts:build</code>   -  переносит папку src/fonts в dist/fonts <br>
 <code>gulp images:build</code>  -  переносит папку src/images в dist/images <br>
 <code>gulp images:optimize</code>  -  оптимизирует изображения с помощью плагина tiny-png и кладет в dist/images <br>
-<code>gulp svg-build</code>    -  генерирует svg спрайт из svg-иконок, находящихся в src/images/svg-separate. Вывод в виде html файла в <code>dist/images/sprite-result.html</code> <br>
 <code>gulp build</code>         -  выполняет таск по сборке проекта (выполняет все такски по компиляции, конкатенации и переносу) <br>
 <code>gulp watch</code>         -  команда слежения за файлами <br>
 <code>gulp webserver</code>     -  запуск сервера <br>
@@ -57,13 +55,6 @@
 - js   - <code>//import('partails/app.js')</code>
 
 <br>
-
-
-### svg-sprite
-Для того чтобы файлы попали в спрайт, положите их в <code>src/images/svg-separate</code>
-
-Если вам нужно сделать градиенты для svg-спрайта, пишите код здесь: <code>src/pug/partails/stach/gradients.pug</code>.<br>
-Он скомпилируется и войдет в результатирующий спрайт.
 
 Задачи для компиляции и "причесывания" разделены в целях оптимизации скорости сборки.<br>
 
