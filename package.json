@@ -21,6 +21,7 @@
     "gulp-replace": "^1.0.0",
     "gulp-svgmin": "^2.1.0",
     "hoek": "^6.1.2",
+    "js-yaml": "^3.13.1",
     "sshpk": "^1.16.0"
   },
   "author": "",
