@@ -1,7 +1,8 @@
 @import 'base/vars.scss';
 @import 'base/grid.scss';
 
-body {font-size: 16px;font-family: Arial;box-sizing: border-box;background-color: #f7f7f1;
+body {font-size: 16px;font-family: Arial;box-sizing: border-box;
+  background-color: #fff;
   &.no-scroll {overflow: hidden;}
 }
 
