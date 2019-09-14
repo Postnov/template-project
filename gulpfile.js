@@ -176,7 +176,7 @@ gulp.task('js:comb', function () {
 gulp.task('css:build', function () {
   return gulp.src(path.src.css)
     .pipe(
-      sass()
+      sass({outputStyle: 'expanded'})
       .on('error', function (err) {
         console.log(err.toString());
         this.emit('end');
